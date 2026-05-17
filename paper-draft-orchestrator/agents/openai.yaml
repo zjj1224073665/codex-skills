@@ -1,0 +1,4 @@
+interface:
+  display_name: "Paper Draft Orchestrator"
+  short_description: "Coordinate multi-agent paper drafting runs"
+  default_prompt: "Use $paper-draft-orchestrator to run a context-safe paper drafting workflow."

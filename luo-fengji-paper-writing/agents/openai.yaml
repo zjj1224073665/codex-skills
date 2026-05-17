@@ -1,0 +1,4 @@
+interface:
+  display_name: "Luo Fengji Paper Writing"
+  short_description: "Apply Luo-style academic paper writing review"
+  default_prompt: "Use $luo-fengji-paper-writing to revise this paper section for reviewer-facing clarity."
