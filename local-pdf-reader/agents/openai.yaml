@@ -1,0 +1,7 @@
+interface:
+  display_name: "Local PDF Reader"
+  short_description: "Read text and highlights from local PDFs"
+  default_prompt: "Use $local-pdf-reader to extract text, pages, or highlights from a local PDF path."
+
+policy:
+  allow_implicit_invocation: true
