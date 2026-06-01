@@ -1,0 +1,4 @@
+interface:
+  display_name: "Holt Common Lib"
+  short_description: "Use holt_common_lib and Alpha Center safely"
+  default_prompt: "Use $holt-common-lib to inspect a Holt data reader or register an alpha in Alpha Center."

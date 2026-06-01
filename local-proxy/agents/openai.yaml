@@ -1,0 +1,4 @@
+interface:
+  display_name: "Local Proxy"
+  short_description: "Retry network commands through local proxy"
+  default_prompt: "Use $local-proxy when an external network command fails or may need the local proxy."
