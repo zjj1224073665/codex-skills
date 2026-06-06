@@ -1,0 +1,4 @@
+interface:
+  display_name: "Meta Spec Writer"
+  short_description: "Draft spec-first Codex meta specs"
+  default_prompt: "Use $meta-spec-writer to draft a clear meta spec prompt for updating repository specs."
