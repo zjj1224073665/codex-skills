@@ -1,0 +1,4 @@
+interface:
+  display_name: "Junjie 审美偏好"
+  short_description: "在视觉任务中套用 Junjie 的审美记忆"
+  default_prompt: "使用 $user-aesthetic-preferences 为 Junjie 创建或判断视觉风格。"
