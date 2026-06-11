@@ -17,9 +17,11 @@ common_lib / ClickHouse.
   directly.
 - Final parquet index must be UTC tz-naive `DatetimeIndex(name="dt")`.
 - Use the existing local parquet schema as canonical column order.
-- ClickHouse has missing 1T minutes sometimes. This is normal. Do not fill
-  those gaps from ClickHouse, do not reindex to create fake rows, and do not
-  ffill/bfill/interpolate missing feature rows.
+- `bntv5_features` may miss complete 1T rows even when the real Binance 1m
+  kline exists. In that case, repair only the missing row: copy feature values
+  from the most recent previous non-missing bntv5 bar, and query the true
+  `1T_open_price` / `1T_close_price` from `t_binance_spot_kline` in ClickHouse.
+  Do not use a filled value for close.
 - Existing local rows may include user-repaired values. Never use ClickHouse to
   overwrite an existing local timestamp unless the user explicitly asks.
 - Daily files in this project often include both endpoints: a full UTC day has
@@ -40,7 +42,10 @@ common_lib / ClickHouse.
    rewrite user-repaired local history.
 5. For wide all-feature syncs, query in column chunks and join by `open_time`.
 6. Upsert by timestamp with local rows winning over remote rows.
-7. Report ClickHouse missing minutes for audit only. Do not fill them.
+7. If bntv5 rows are missing, repair those timestamps by forward-filling
+   non-price feature values from the previous non-missing bntv5 row, then
+   overwriting `1T_open_price` / `1T_close_price` with true 1m kline values
+   from ClickHouse. Missing kline close is a hard error.
 8. Write one parquet per affected day:
    `YYYY-MM-DD_features.parquet`.
 9. Re-read written files and verify row counts, index name/range.

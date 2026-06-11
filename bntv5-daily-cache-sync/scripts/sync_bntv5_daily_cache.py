@@ -86,6 +86,13 @@ def canonical_columns(schema_file: Path, drop_columns: Iterable[str]) -> list[st
     return out
 
 
+def schema_columns(schema_file: Path) -> list[str]:
+    cols = pd.read_parquet(schema_file).columns.tolist()
+    if not cols:
+        raise SystemExit(f"schema file has no columns: {schema_file}")
+    return cols
+
+
 def chunks(values: list[str], size: int) -> Iterable[list[str]]:
     if size <= 0:
         raise SystemExit("--columns-per-query must be positive")
@@ -173,6 +180,96 @@ def source_missing_minutes(
     return missing
 
 
+def repair_missing_minutes_from_spot_kline(
+    df: pd.DataFrame,
+    missing: pd.DatetimeIndex,
+    *,
+    symbol: str,
+    market: str,
+    db_name: str,
+    columns: list[str],
+) -> pd.DataFrame:
+    """Fill missing bntv5 rows without inventing close prices.
+
+    The feature table occasionally misses complete 1T rows even though Binance
+    spot kline has the true bar.  For those rows we copy non-price feature
+    values from the most recent previous *original* non-missing bntv5 row, then
+    overwrite the 1T price columns with true kline open/close.
+    """
+    if len(missing) == 0:
+        return df
+    if df.empty:
+        raise SystemExit("cannot repair missing bntv5 rows without a previous row")
+
+    market_type = "spot" if str(market).upper() == "SPOT" else "swap"
+    from common_lib.io.clickhouse_io import read_binance_kline
+
+    kline_start = pd.Timestamp(missing.min())
+    kline_end = pd.Timestamp(missing.max()) + pd.Timedelta(minutes=1)
+
+    kline_frames: dict[str, pd.DataFrame] = {}
+    for field in ("open", "close"):
+        if f"1T_{field}_price" not in columns:
+            continue
+        frame = read_binance_kline(
+            from_dt=str(kline_start),
+            end_dt=str(kline_end),
+            field=field,
+            interval="1m",
+            symbols=[symbol],
+            market_type=market_type,
+            db_name=db_name,
+        )
+        if frame.empty:
+            raise SystemExit(f"spot kline query returned empty for field={field}")
+        kline_frames[field] = frame
+
+    original_index = pd.DatetimeIndex(df.index).sort_values()
+    base = df.sort_index()
+    additions: list[pd.Series] = []
+    addition_index: list[pd.Timestamp] = []
+    repair_log: list[str] = []
+
+    for ts in pd.DatetimeIndex(missing).sort_values():
+        pos = original_index.searchsorted(ts, side="left") - 1
+        if pos < 0:
+            raise SystemExit(f"cannot repair {ts}: no previous non-missing bntv5 row")
+        prev_ts = original_index[pos]
+        row = base.loc[prev_ts, columns].copy()
+
+        for field, price_col in (("open", "1T_open_price"), ("close", "1T_close_price")):
+            if price_col not in columns:
+                continue
+            kline = kline_frames[field]
+            kline_col = symbol if symbol in kline.columns else kline.columns[0]
+            if ts not in kline.index or pd.isna(kline.at[ts, kline_col]):
+                raise SystemExit(f"spot kline missing {field} for {ts}")
+            row[price_col] = float(kline.at[ts, kline_col])
+
+        additions.append(row)
+        addition_index.append(ts)
+        repair_log.append(
+            f"{ts}<-features:{prev_ts} "
+            f"open={row.get('1T_open_price', 'NA')} "
+            f"close={row.get('1T_close_price', 'NA')}"
+        )
+
+    repaired = pd.concat(
+        [
+            base,
+            pd.DataFrame(additions, index=pd.DatetimeIndex(addition_index, name="dt")),
+        ]
+    ).sort_index()
+    repaired = repaired[~repaired.index.duplicated(keep="last")]
+    repaired.index = pd.DatetimeIndex(repaired.index, name="dt")
+    print(
+        f"source_missing_minutes_repaired={len(addition_index)} "
+        f"details={repair_log[:20]}",
+        flush=True,
+    )
+    return repaired.loc[:, columns]
+
+
 def coerce_float64(df: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
     out = df.loc[:, columns].copy()
     for col in columns:
@@ -210,6 +307,7 @@ def write_daily_files(
     start_day: pd.Timestamp,
     latest_open: pd.Timestamp,
     columns: list[str],
+    final_columns: list[str],
     compression: str,
     overwrite_existing: bool,
 ) -> list[tuple[str, int, str, str, int]]:
@@ -226,6 +324,18 @@ def write_daily_files(
         combined = pd.concat(frames).sort_index()
         combined = combined[~combined.index.duplicated(keep="last")]
         part = combined.loc[(combined.index >= day) & (combined.index <= file_end), columns].copy()
+        for col in final_columns:
+            if col not in part.columns:
+                if col == "is_warmup":
+                    if out.exists():
+                        existing_col = pd.read_parquet(out, columns=[col])
+                        existing_col.index = pd.DatetimeIndex(existing_col.index, name="dt")
+                        part[col] = existing_col[col].reindex(part.index).fillna(False).astype(bool)
+                    else:
+                        part[col] = False
+                else:
+                    raise SystemExit(f"cannot write {out.name}: missing final schema column {col}")
+        part = part.loc[:, final_columns]
         part.index = pd.DatetimeIndex(part.index, name="dt")
         tmp = cache_dir / f".{day.date()}_features.parquet.tmp"
         part.to_parquet(tmp, engine="pyarrow", compression=compression, index=True)
@@ -245,6 +355,7 @@ def main() -> int:
     cache_dir = args.cache_dir
     files = existing_files(cache_dir)
     schema_file = args.schema_file or files[-1]
+    final_columns = schema_columns(schema_file)
     columns = canonical_columns(schema_file, args.drop_column)
 
     if args.start_dt:
@@ -304,11 +415,20 @@ def main() -> int:
             remote = coerce_float64(remote, columns)
     missing = source_missing_minutes(remote, start=start_dt, latest_open=latest_open)
     if len(missing):
-        print(
-            f"source_missing_minutes_not_filled={len(missing)} "
-            f"first_missing={missing[:10].tolist()}",
-            flush=True,
+        remote = repair_missing_minutes_from_spot_kline(
+            remote,
+            missing,
+            symbol=args.symbol,
+            market=args.market,
+            db_name=args.db_name,
+            columns=columns,
         )
+        missing_after = source_missing_minutes(remote, start=start_dt, latest_open=latest_open)
+        if len(missing_after):
+            raise SystemExit(
+                f"missing minutes remain after kline repair: "
+                f"{len(missing_after)} first_missing={missing_after[:10].tolist()}"
+            )
 
     written = write_daily_files(
         cache_dir=cache_dir,
@@ -316,6 +436,7 @@ def main() -> int:
         start_day=start_dt.normalize(),
         latest_open=latest_open,
         columns=columns,
+        final_columns=final_columns,
         compression=args.compression,
         overwrite_existing=args.overwrite_existing,
     )

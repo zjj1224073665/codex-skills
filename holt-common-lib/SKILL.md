@@ -66,3 +66,6 @@ If the copied reference seems stale, read the live README at `/home/junjiezhao/D
 - Preserve the source strategy's intended frequency and execution semantics when moving signals into Alpha Center.
 - Confirm signal and close DataFrame shape before writing: wide `pd.DataFrame`, `index=time`, `columns=symbol`, `values=float`.
 - If writing to ClickHouse or Alpha Center, validate with a small read-back and clean up temporary smoke-test rows.
+
+## 策略meta命名
+策略meta命名必须是 alpha_zjj_ts或者cs（就是时序或者截面）_BTCUSDT（币种，除了BTC也可以是其他的）_uptrendpullback1T（策略名）

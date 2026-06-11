@@ -1,0 +1,7 @@
+interface:
+  display_name: "Strategy Attribution"
+  short_description: "Quant strategy attribution workflow"
+  default_prompt: "Use $strategy-attribution to investigate why this quant strategy changed performance and write an evidence-backed attribution report."
+
+policy:
+  allow_implicit_invocation: true
