@@ -1,4 +1,0 @@
-interface:
-  display_name: "Research Contribution Framing"
-  short_description: "Frame technical work as defensible paper contributions."
-  default_prompt: "Help me turn this technical method into a problem-driven paper contribution with clear novelty, positioning, and related-work defenses."

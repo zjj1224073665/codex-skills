@@ -1,0 +1,4 @@
+interface:
+  display_name: "Luo Fengji 论文写作"
+  short_description: "应用 Luo-style 学术论文写作 review"
+  default_prompt: "Use $luo-fengji-paper-writing 修改这一论文段落，使其更具 reviewer-facing clarity。"

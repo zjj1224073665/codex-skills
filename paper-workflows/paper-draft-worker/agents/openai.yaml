@@ -1,0 +1,4 @@
+interface:
+  display_name: "论文初稿 Worker"
+  short_description: "执行一个有边界的论文起草子任务"
+  default_prompt: "Use $paper-draft-worker 执行这个有边界的 section、evidence、citation、review 或 assembly 任务。"

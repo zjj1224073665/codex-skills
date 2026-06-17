@@ -1,0 +1,4 @@
+interface:
+  display_name: "PDF Visual Audit"
+  short_description: "Audit PDF equations against rendered pages"
+  default_prompt: "Use $pdf-visual-audit to repair formulas or layout errors in extracted Markdown from a local PDF."

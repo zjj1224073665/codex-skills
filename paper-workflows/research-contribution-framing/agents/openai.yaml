@@ -1,0 +1,4 @@
+interface:
+  display_name: "研究贡献定位"
+  short_description: "把技术工作定位成站得住的论文贡献"
+  default_prompt: "帮我把这个技术方法转化成 problem-driven paper contribution，明确 novelty、positioning 和 related-work defenses。"

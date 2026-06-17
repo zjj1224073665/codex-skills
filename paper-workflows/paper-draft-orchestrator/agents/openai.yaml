@@ -1,0 +1,4 @@
+interface:
+  display_name: "论文初稿 Orchestrator"
+  short_description: "协调多智能体论文起草 run"
+  default_prompt: "Use $paper-draft-orchestrator 运行一个上下文安全的多智能体论文起草流程。"

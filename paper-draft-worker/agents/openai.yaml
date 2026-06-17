@@ -1,4 +1,0 @@
-interface:
-  display_name: "Paper Draft Worker"
-  short_description: "Execute one bounded paper drafting subtask"
-  default_prompt: "Use $paper-draft-worker for this bounded section, evidence, citation, review, or assembly task."
