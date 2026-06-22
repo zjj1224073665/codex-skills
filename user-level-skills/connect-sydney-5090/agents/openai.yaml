@@ -1,0 +1,4 @@
+interface:
+  display_name: "Connect Sydney 5090"
+  short_description: "SSH workflow for the Sydney_5090 host"
+  default_prompt: "Use $connect-sydney-5090 to connect to Sydney_5090 and run a quick host check."
