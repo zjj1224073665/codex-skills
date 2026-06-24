@@ -1,0 +1,4 @@
+interface:
+  display_name: "Groupon AU Coupons"
+  short_description: "Find and verify Groupon Australia promo codes"
+  default_prompt: "Use $groupon-au-coupons to find working Groupon Australia promo codes for my next purchase."
