@@ -1,1 +1,0 @@
-/mnt/nas/cta_public/holt/data/binance_trades_v5/daily/sample1T_1T5T1h/spot/BTCUSDT

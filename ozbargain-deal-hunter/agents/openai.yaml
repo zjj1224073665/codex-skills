@@ -1,0 +1,4 @@
+interface:
+  display_name: "OzBargain Deal Hunter"
+  short_description: "Find genuinely strong OzBargain deals"
+  default_prompt: "Use $ozbargain-deal-hunter to scan today's OzBargain posts and surface only the genuinely strong deals."
