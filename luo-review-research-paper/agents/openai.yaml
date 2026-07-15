@@ -1,0 +1,4 @@
+interface:
+  display_name: "罗老师论文审稿法"
+  short_description: "从审稿人视角系统诊断论文的主线、贡献、证据与表达问题"
+  default_prompt: "Use $luo-review-research-paper to review this research manuscript and produce a prioritized diagnostic report without editing or rewriting it."
