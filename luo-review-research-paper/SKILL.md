@@ -1,6 +1,6 @@
 ---
 name: luo-review-research-paper
-description: Review research manuscripts with Professor Luo's reviewer-first approach and produce a prioritized diagnostic report without editing or rewriting the manuscript. Use when the requested deliverable must remain review-only, including pre-submission self-review and peer-review-style assessment of another manuscript, covering problem framing, application positioning, contribution claims, methods, experiments, abstract, conclusion, logic, terminology, notation, citations, figures, tables, and reviewer readability, especially in applied engineering and computing research.
+description: Review research manuscripts with Professor Luo's reviewer-first approach and produce a prioritized diagnostic report without editing or rewriting the manuscript. Use when the requested deliverable must remain review-only, including pre-submission self-review and peer-review-style assessment of another manuscript, covering problem framing, application positioning, contribution claims, methods, experiments, abstract, conclusion, causal motivation, abrupt concept introduction, logic, terminology, notation, citations, figures, tables, and reviewer readability, especially in applied engineering and computing research.
 ---
 
 # Review Research Papers with Luo's Approach
@@ -47,7 +47,17 @@ Read the title, abstract, headings, contribution list, figure and table captions
 
 State the domain problem, precise literature gap, consequence of the gap, author-created contribution, mechanism, supporting evidence, and bounded implication in one sentence each. Mark missing links and contradictions between sections.
 
-### 4. Apply five publication gates
+### 4. Diagnose concept-introduction gaps
+
+Locate the first substantive use of each important constraint, metric, modeling object, mechanism, and technical term. Judge the passage from what the reader knows at that point; do not silently import explanations given later.
+
+When a concept appears abruptly, treat it as a potentially missing reasoning bridge rather than merely a missing definition. Test whether the manuscript establishes this sequence where relevant:
+
+`known context -> underlying mechanism -> system-level consequence -> practical need -> introduced concept -> scope and boundary -> role in the research question`
+
+Do not accept a definition-only repair if the reader still cannot explain why the concept is needed. Distinguish causal motivation (why it exists), semantic definition (what it denotes), boundary clarification (what it does not denote), and research function (why the paper uses it). Recommend placing the minimum necessary causal bridge before the concept's first use.
+
+### 5. Apply five publication gates
 
 Evaluate before polishing language:
 
@@ -59,7 +69,7 @@ Evaluate before polishing language:
 
 Treat a failure that prevents meaningful evaluation or invalidates the central claim as a submission blocker.
 
-### 5. Review in dependency order
+### 6. Review in dependency order
 
 Review problem framing and domain motivation first, then novelty and contributions, method mechanism, claim-evidence coverage, introduction, abstract and title, conclusion, and finally sentence-level language and consistency. Diagnose structural issues before reporting surface-level language issues.
 
@@ -67,7 +77,7 @@ For every material unit, ask what job it performs, whether the reader has the re
 
 Run global audits for terminology, acronyms, notation, citations, repetition, figures, tables, and section titles. When one defect represents a pattern, report the pattern and representative locations rather than only its first occurrence.
 
-### 6. Report actionable findings
+### 7. Report actionable findings
 
 Lead with the highest-impact issues. For each material finding, give:
 
