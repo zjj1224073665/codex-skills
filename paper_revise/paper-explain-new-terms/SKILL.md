@@ -1,6 +1,6 @@
 ---
 name: paper-explain-new-terms
-description: Revise academic and technical writing so new terms, constraints, metrics, mechanisms, variables, and named concepts are motivated and defined before readers must rely on them. Use when a paper introduces jargon abruptly, assumes an unexplained budget or limit, jumps from background to a formal model, leaves the origin of a research problem unclear, or receives feedback such as “Where did this come from?”, “Why is this needed?”, or “This term appears out of nowhere.”
+description: Revise academic and technical writing so new terms, constraints, metrics, mechanisms, variables, and named concepts are motivated and defined before readers must rely on them. Use when a paper introduces jargon abruptly, assumes an unexplained budget or limit, leaves formula variables, indices, sets, or units unexplained, jumps from background to a formal model, leaves the origin of a research problem unclear, or receives feedback such as “Where did this come from?”, “Why is this needed?”, “What does this variable mean?”, or “This symbol appears out of nowhere.”
 ---
 
 # Explain New Terms in Papers
@@ -30,6 +30,8 @@ Locate the first substantive use of the questioned term and read enough surround
 Inspect equations, methods, tables, captions, and limitations before rewriting the introduction. Do not invent an introductory motivation that contradicts the formal model.
 
 Treat the term's name as a search clue, not as evidence of its meaning. If the manuscript does not supply the facts needed to explain the concept accurately, identify the missing definition or mechanism and ask the author, or leave an explicit drafting placeholder. Do not complete the causal chain by guessing.
+
+Build a notation ledger while auditing displayed equations. For each symbol, record its meaning, unit, and index or set. Define every symbol at or immediately before its first appearance; do not postpone the explanation until a later section.
 
 ### 2. Recover the root problem
 
@@ -64,7 +66,20 @@ Use explicit causal language where helpful: “because,” “when,” “as a r
 - **Variable or parameter:** Describe the physical or conceptual quantity before presenting its symbol. Give its unit, range, sign convention, and indexing when these matter.
 - **Acronym or named system:** Give the full name and its role in the argument before relying on the shortened label.
 
-### 5. Preserve scientific accuracy
+### 5. Audit every equation
+
+For every displayed equation, ensure the surrounding prose defines:
+
+- the quantity on the left-hand side;
+- every new symbol on the right-hand side;
+- all indices, sets, and summation ranges;
+- units and unit-conversion constants such as 60 or 3600;
+- ranges, sign conventions, and stochastic distributions;
+- whether a value is evaluated before or after an event or action.
+
+Do not introduce a symbol in an equation and assume that its name or subscript makes the meaning obvious. If the explanation would interrupt the argument, add a concise ``where'' sentence immediately after the equation.
+
+### 6. Preserve scientific accuracy
 
 Do not exaggerate consequences to make the motivation sound dramatic. Distinguish among:
 
@@ -79,17 +94,18 @@ Add or preserve citations for externally verifiable causal claims. If evidence o
 
 Do not infer a formula, mechanism, direction of improvement, unit, or causal effect from a term's wording alone. When the necessary evidence is unavailable, state what must be established before offering final prose.
 
-### 6. Integrate rather than append
+### 7. Integrate rather than append
 
 Rewrite the surrounding paragraph so the explanation forms one argument. Do not paste a long definition after the unexplained first use. Move the motivation earlier, remove duplicated later explanations, and make the next paragraph begin from the now-established concept.
 
 Keep the bridge proportional. Explain every inferential step the reader needs, but avoid a textbook detour unrelated to the paper's contribution.
 
-### 7. Check the whole manuscript
+### 8. Check the whole manuscript
 
 After revising the first use:
 
 - Use one preferred term consistently across the abstract, introduction, model, results, and conclusion.
+- Re-scan every displayed equation and confirm that no symbol depends on an unexplained later definition.
 - Synchronize translated or parallel manuscript sources when present.
 - Confirm that equations and prose use the same scope and units.
 - Rebuild the document when editing LaTeX or another compiled format.
@@ -106,6 +122,7 @@ The passage is ready only if a new reader can answer, in order:
 5. What exactly does the term mean here?
 6. What does it include and exclude?
 7. How does it lead to the paper's research problem or method?
+8. Can every formula symbol, unit, index, and time reference be understood at first use?
 
 If any answer depends on material that appears only later, repair the first-use explanation.
 
