@@ -1,0 +1,4 @@
+interface:
+  display_name: "Explain Paper Terms"
+  short_description: "Introduce technical terms through a clear causal chain"
+  default_prompt: "Use $paper-explain-new-terms to revise this passage so every new term is motivated and defined before it is used."
