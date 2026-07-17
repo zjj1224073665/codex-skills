@@ -1,0 +1,4 @@
+interface:
+  display_name: "Write Positive Paper Definitions"
+  short_description: "Replace defensive contrasts with direct definitions"
+  default_prompt: "Use $paper-write-positive-definitions to replace awkward contrastive definitions with direct positive prose while preserving technical boundaries."
