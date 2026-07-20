@@ -81,6 +81,7 @@ Apply these patterns:
 - Replace a negative provenance disclaimer with a positive source statement.
 - Replace a negative limitation with a positive statement of the study's valid scope.
 - Remove duplicated contrasts after preserving the definition once at its first formal use.
+- Remove nonessential forward pointers such as “see a later section” or “as discussed below”; state the point directly. Keep precise figure and table references, and useful backward references.
 
 Examples:
 

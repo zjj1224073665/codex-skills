@@ -15,6 +15,8 @@ Do not solve an abrupt-term problem with a dictionary definition alone. Use this
 
 The reader should understand why the concept must exist before being asked to remember its name.
 
+Never treat an acronym expansion, parenthetical gloss, unit, formula, or sentence of the form “X is/means/refers to Y” as sufficient evidence that a term is explained. These forms establish what the term is; require the surrounding prose also to establish why it is introduced and what it affects in the paper.
+
 ## Workflow
 
 ### 1. Audit the first use
@@ -32,6 +34,8 @@ Inspect equations, methods, tables, captions, and limitations before rewriting t
 Treat the term's name as a search clue, not as evidence of its meaning. If the manuscript does not supply the facts needed to explain the concept accurately, identify the missing definition or mechanism and ask the author, or leave an explicit drafting placeholder. Do not complete the causal chain by guessing.
 
 Build a notation ledger while auditing displayed equations. For each symbol, record its meaning, unit, and index or set. Define every symbol at or immediately before its first appearance; do not postpone the explanation until a later section.
+
+Place a variable's prose name next to its symbol at first use---for example, ``next-platform arrival time $t_k^{\mathrm{next}}$'' or ``delay probability $p_{\mathrm d}$''. Repeat the name--symbol pair later whenever it improves readability. Apply this pattern to any symbol, not only those on the left-hand side of an equation.
 
 ### 2. Recover the root problem
 

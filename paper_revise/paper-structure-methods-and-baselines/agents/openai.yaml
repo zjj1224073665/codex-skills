@@ -1,0 +1,4 @@
+interface:
+  display_name: "Structure Paper Methods and Baselines"
+  short_description: "Restructure methods, baselines, and algorithm detail"
+  default_prompt: "Use $paper-structure-methods-and-baselines to audit and revise this manuscript’s method, baseline, and experimental structure."
