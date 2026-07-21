@@ -1,4 +1,0 @@
-interface:
-  display_name: "Revise Research Papers"
-  short_description: "Improve paper logic, prose, and bilingual consistency"
-  default_prompt: "Use $revise-research-papers to revise this manuscript section, preserve technical meaning, synchronize language versions, and verify the rendered output."

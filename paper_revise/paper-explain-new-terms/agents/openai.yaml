@@ -1,4 +1,0 @@
-interface:
-  display_name: "Explain Paper Terms"
-  short_description: "Motivate terms and define every formula symbol at first use"
-  default_prompt: "Use $paper-explain-new-terms to revise this passage so every new term and formula symbol is defined before readers must rely on it."

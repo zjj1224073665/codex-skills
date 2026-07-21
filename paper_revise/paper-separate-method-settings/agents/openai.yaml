@@ -1,4 +1,0 @@
-interface:
-  display_name: "Separate Methods from Experimental Settings"
-  short_description: "Place method logic and experiment settings in proper sections"
-  default_prompt: "Use $paper-separate-method-settings to move numerical configurations into the experimental setup while keeping the method technically complete."
