@@ -1,4 +1,4 @@
 interface:
-  display_name: "Convergent Meta-Spec Review"
-  short_description: "Review task prompts without creating endless revision loops"
-  default_prompt: "Use $convergent-meta-spec-review to revise and review this task prompt with explicit blocker and stopping criteria."
+  display_name: "Meta-Spec Reviewer"
+  short_description: "Review meta-spec prompts for actionable ambiguity"
+  default_prompt: "Use $convergent-meta-spec-review to review this meta-spec and report only concrete blockers and minimal fixes."
