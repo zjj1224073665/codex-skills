@@ -1,0 +1,4 @@
+interface:
+  display_name: "Call local Codex from Claude"
+  short_description: "Hand a prompt to the local Codex CLI (gpt-5.6-luna, xhigh) and collect its answer"
+  default_prompt: "Use $call-local-codex-from-claude to send this prompt to local Codex and return its full answer."
